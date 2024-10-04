@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Alphabet GIFs</title>
+    <style>
+        body {
+            font-size: 0;
+            line-height: 0;
+            margin: 0;
+            padding: 0;
+        }
+        .gif-image {
+            width: 130px;
+            height: 130px;
+            display: inline-block;
+        }
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 100px;
+            background-color: grey;
+            vertical-align: top;
+            animation: blink 1s step-end infinite;
+        }
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <span class="cursor"></span>
+
+    <script>
+        const imageMap = {
+            65: 'A.gif',  // A
+            66: 'B.gif',  // B
+            67: 'c.gif',  // C
+            68: 'D.gif',  // D
+            69: 'E.gif',  // E
+            70: 'F.gif',  // F
+            71: 'G.gif',  // G
+            72: 'H.gif',  // H
+            73: 'I.gif',  // I
+            74: 'J.gif',  // J
+            75: 'K.gif',  // K
+            76: 'L.gif',  // L
+            77: 'M.gif',  // M
+            78: 'N.gif',  // N
+            79: 'O.gif',  // O
+            80: 'P.gif',  // P
+            81: 'Q.gif',  // Q
+            82: 'R.gif',  // R
+            83: 'S.gif',  // S
+            84: 'T.gif',  // T
+            85: 'U.gif',  // U
+            86: 'V.gif',  // V
+            87: 'W.gif',  // W
+            88: 'X.gif',  // X
+            89: 'Y.gif',  // Y
+            90: 'Z.gif'   // Z
+        };
+
+        $(document).on('keydown', function (e) {
+            $('.cursor').remove();
+            var keyCode = e.keyCode ? e.keyCode : e.which;
+
+            function escapeHtml(text) {
+                var map = {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                };
+                return text.replace(/[&<>"']/g, function (m) { return map[m]; });
+            }
+
+            if (e.type === "keydown") {
+                switch (keyCode) {
+                    case 8: // Backspace key
+                        $('body *:last-child').not('.cursor').remove();
+                        e.preventDefault();
+                        break;
+                    case 32: // Space key
+                        $('body').append("<div class='space'></div>");
+                        break;
+                    case 13: // Enter key
+                        $('body').append("<br />");
+                        break;
+                    default:
+                        if (imageMap[keyCode]) {
+                            var imageUrl = imageMap[keyCode];
+                            $('body').append("<img src='" + imageUrl + "' alt='" + escapeHtml(String.fromCharCode(keyCode)) + "' class='gif-image'/>");
+                        }
+                        break;
+                }
+            }
+
+            $('body').append('<span class="cursor"></span>');
+        });
+    </script>
+</body>
+</html>
